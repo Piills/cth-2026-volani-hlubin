@@ -1,0 +1,6 @@
+_src/
+build.py
+gen_scenare.py
+_gate_template.html
+.DS_Store
+__pycache__/

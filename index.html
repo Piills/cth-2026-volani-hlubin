@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Volání Hlubin — CTH 2026</title>
+<style>
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: #0e1a1f;
+    color: #edf1f1;
+    display: grid;
+    place-items: center;
+  }
+  .box {
+    width: min(90vw, 360px);
+    text-align: center;
+    padding: 8px;
+  }
+  .emoji { font-size: 2.4rem; }
+  h1 { font-size: 1.15rem; font-weight: 600; margin: 14px 0 4px; color: #d6a84a; letter-spacing: .02em; }
+  p { color: #93a7ad; font-size: .9rem; margin: 0 0 20px; }
+  form { display: flex; gap: 8px; }
+  input {
+    flex: 1;
+    padding: 12px 14px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 1px solid #24393f;
+    background: #16262c;
+    color: #edf1f1;
+    outline: none;
+  }
+  input:focus { border-color: #d6a84a; }
+  button {
+    padding: 12px 16px;
+    font-size: 1rem;
+    border-radius: 10px;
+    border: 0;
+    background: #d6a84a;
+    color: #0e1a1f;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .err { color: #e0736b; font-size: .85rem; height: 1.2em; margin-top: 12px; }
+</style>
+</head>
+<body>
+  <div class="box">
+    <div class="emoji">🌊</div>
+    <h1>Volání Hlubin</h1>
+    <p>Zadej heslo pro přístup.</p>
+    <form id="f">
+      <input id="pw" type="password" autocomplete="current-password" placeholder="Heslo" autofocus>
+      <button type="submit">Vstoupit</button>
+    </form>
+    <div class="err" id="err"></div>
+  </div>
+<script>
+const PAYLOAD = "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";
+const ITER = 200000;
+const SK = "vh_pw";
+
+function b64ToBytes(b64){ const bin = atob(b64); const u = new Uint8Array(bin.length); for(let i=0;i<bin.length;i++) u[i]=bin.charCodeAt(i); return u; }
+
+async function decrypt(pw){
+  const raw = b64ToBytes(PAYLOAD);
+  const salt = raw.slice(0,16), iv = raw.slice(16,28), data = raw.slice(28);
+  const pwKey = await crypto.subtle.importKey("raw", new TextEncoder().encode(pw), "PBKDF2", false, ["deriveKey"]);
+  const key = await crypto.subtle.deriveKey(
+    { name:"PBKDF2", salt, iterations: ITER, hash:"SHA-256" },
+    pwKey, { name:"AES-GCM", length:256 }, false, ["decrypt"]);
+  const pt = await crypto.subtle.decrypt({ name:"AES-GCM", iv }, key, data);
+  return new TextDecoder("utf-8").decode(pt);
+}
+
+function render(html){
+  document.open(); document.write(html); document.close();
+}
+
+async function tryPw(pw, fromStore){
+  try {
+    const html = await decrypt(pw);
+    try { sessionStorage.setItem(SK, pw); } catch(e){}
+    render(html);
+    return true;
+  } catch(e){
+    if (fromStore) { try { sessionStorage.removeItem(SK); } catch(_){} }
+    return false;
+  }
+}
+
+document.getElementById("f").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const err = document.getElementById("err");
+  err.textContent = "";
+  const ok = await tryPw(document.getElementById("pw").value, false);
+  if (!ok) { err.textContent = "Špatné heslo."; document.getElementById("pw").select(); }
+});
+
+(async () => {
+  let saved = null;
+  try { saved = sessionStorage.getItem(SK); } catch(e){}
+  if (saved) { await tryPw(saved, true); }
+})();
+</script>
+</body>
+</html>
